@@ -2,7 +2,7 @@ let listaNumerosSorteados = [];
 
 let numeroLimiteLista = 10;
 
-let numeroSecreto = geradorNumeroSecreto;
+let numeroSecreto = geradorNumeroSecreto();
 
 let tentativas = 1;
 
@@ -15,29 +15,34 @@ function exibirTexto(tag, texto){
 function mensagemInicialJogo(){
     exibirTexto ('h1', 'Jogo do número secreto');
     exibirTexto ('p','Por favor, nos informe qual número deseja tentar, entre 1 e 10');
+    
 }
 
 mensagemInicialJogo();
 
 function verificarChute(){
     console.log('O botão foi clicado');
-    let chute = document.querySelector('input').value;
-    let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa';
-    let mensagemTentativa = `O número secreto ${numeroSecreto} foi descoberto com ${tentativas} ${palavraTentativa} meus parabéns!!!`;
+    console.log(numeroSecreto);
+   
+    let chute = parseInt(document.querySelector('input').value);
+    
     
     if(chute == numeroSecreto){
         exibirTexto('h1','Você acertou!');
+        let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa';
+        let mensagemTentativa = `O número secreto ${numeroSecreto} foi descoberto com ${tentativas} ${palavraTentativa} meus parabéns!!!`;
         exibirTexto('p', mensagemTentativa);
         document.getElementById('reiniciar').removeAttribute('disabled');
-    } 
-    else if(chute > numeroSecreto){
-        exibirTexto('h1', 'Quase!');
-        exibirTexto('p','Tente novamente! O chute foi maior que o número secreto');
-    }
-    else{
-        exibirTexto('h1','Quase!');
-        exibirTexto('p','O chute foi menor que o número secreto');
-    }
+    } else {
+        if(chute > numeroSecreto){
+            exibirTexto('h1', 'Quase!');
+            exibirTexto('p','Tente novamente! O chute foi maior que o número secreto');
+        }else{
+            exibirTexto('h1','Quase!');
+            exibirTexto('p','Tente novamente! O chute foi menor que o número secreto');
+        }
+}
+
     tentativas++;
     limparCampo();
 }
@@ -53,15 +58,14 @@ function geradorNumeroSecreto(){
     
     if (listaNumerosSorteados.includes(gerarNumeroSecreto)){
         return geradorNumeroSecreto();
-    } 
-    else{
+    } else{
         listaNumerosSorteados.push(gerarNumeroSecreto);
-        return geradorNumeroSecreto;
+        return gerarNumeroSecreto;
     }
 }
 
 function limparCampo(){
-    chute = document.querySelector('input');
+    let chute = document.querySelector('input');
     chute.value = '';
 
 }
@@ -74,4 +78,6 @@ function reiniciarJogo(){
     document.getElementById('reiniciar').setAttribute('disabled', true);
     
 }
+
+
 
